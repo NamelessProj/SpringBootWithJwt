@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/test")
 public class TestController {
 
-    @GetMapping("/public")
+    @GetMapping
     public String testPublic() {
         return "Hello World";
     }
 
     @GetMapping("/user")
+    @PreAuthorize("hasRole('USER') or " + // Require USER, MODERATOR, or ADMIN role
+            "hasRole('MODERATOR') or " +
+            "hasRole('ADMIN')")
     public String testUser() {
         return "Hello User";
     }
